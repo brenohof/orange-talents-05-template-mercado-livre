@@ -20,11 +20,12 @@ public class Usuario {
     @NotNull @Size(min = 6)
     private String senha;
     @NotNull @Future
-    private LocalDateTime instanteDeCriacao = LocalDateTime.now();
+    private LocalDateTime instanteDeCriacao;
 
     public Usuario(@NotNull String login, @NotNull String senha) {
         this.login = login;
         this.senha = new BCryptPasswordEncoder().encode(senha);
+        this.instanteDeCriacao = LocalDateTime.now().plusMinutes(5);
     }
 
     public static boolean isPasswordClean(String password) {

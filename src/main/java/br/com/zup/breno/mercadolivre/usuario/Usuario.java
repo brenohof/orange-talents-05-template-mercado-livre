@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class Usuario {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull @Email
+    @NotNull @Email @Column(unique = true)
     private String login;
     @NotNull @Size(min = 6)
     private String senha;

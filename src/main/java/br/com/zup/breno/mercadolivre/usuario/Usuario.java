@@ -1,13 +1,11 @@
 package br.com.zup.breno.mercadolivre.usuario;
 
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -22,13 +20,13 @@ public class Usuario {
     @NotNull @Future
     private LocalDateTime instanteDeCriacao;
 
-    public Usuario(@NotNull String login, @NotNull String senha) {
+    public Usuario(@NotNull String login, @NotNull SenhaLimpa senha) {
+        Assert.isTrue(StringUtils.hasLength(login),"email não pode ser em branco");
+        Assert.notNull(senha,"o objeto do tipo senha limpa nao pode ser nulo");
+
         this.login = login;
-        this.senha = new BCryptPasswordEncoder().encode(senha);
+        this.senha = senha.hash();
         this.instanteDeCriacao = LocalDateTime.now().plusMinutes(5);
     }
 
-    public static boolean isPasswordClean(String password) {
-        return password.equals(password.trim());
-    }
 }

@@ -21,16 +21,15 @@ public class CategoriaRequest {
 
 
     public Categoria toModel(EntityManager entityManager) {
-        if (categoriaMaeId == null) {
-            return new Categoria(nome);
-        }
-
-        Categoria categoriaMae = entityManager.find(Categoria.class, categoriaMaeId);
-
-        Assert.state(categoriaMae != null, "você está tentando criar uma nova categoria com uma categoria mãe que não existe "+categoriaMaeId);
-
         Categoria novaCategoria = new Categoria(nome);
-        novaCategoria.setCategoriaMae(categoriaMae);
+
+        if (categoriaMaeId != null) {
+            Categoria categoriaMae = entityManager.find(Categoria.class, categoriaMaeId);
+
+            Assert.state(categoriaMae != null, "você está tentando criar uma nova categoria com uma categoria mãe que não existe "+categoriaMaeId);
+
+            novaCategoria.setCategoriaMae(categoriaMae);
+        }
 
         return novaCategoria;
     }

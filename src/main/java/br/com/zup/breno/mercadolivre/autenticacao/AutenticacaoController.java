@@ -1,8 +1,5 @@
-package br.com.zup.breno.mercadolivre.security;
+package br.com.zup.breno.mercadolivre.autenticacao;
 
-import br.com.zup.breno.mercadolivre.security.LoginRequest;
-import br.com.zup.breno.mercadolivre.security.Token;
-import br.com.zup.breno.mercadolivre.security.TokenResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,7 +29,6 @@ public class AutenticacaoController {
 
         try {
             Authentication authentication = authManager.authenticate(dadosLogin);
-            authentication.getPrincipal();
             String novoToken = token.gerarToken(authentication);
             return ResponseEntity.ok(new TokenResponse(novoToken, "Bearer"));
         } catch (AuthenticationException exception) {

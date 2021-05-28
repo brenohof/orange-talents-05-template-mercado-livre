@@ -1,5 +1,7 @@
-package br.com.zup.breno.mercadolivre.security;
+package br.com.zup.breno.mercadolivre.config.security;
 
+import br.com.zup.breno.mercadolivre.autenticacao.AutenticacaoViaTokenFilter;
+import br.com.zup.breno.mercadolivre.autenticacao.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

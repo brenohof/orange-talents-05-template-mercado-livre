@@ -3,6 +3,7 @@ package br.com.zup.breno.mercadolivre.produto;
 import br.com.zup.breno.mercadolivre.categoria.Categoria;
 import br.com.zup.breno.mercadolivre.usuario.Usuario;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 public class Produto {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank @NotNull
+    @NotBlank @NotNull @Column(unique = true)
     private String nome;
     @NotNull @NotBlank @Length(max=1000)
     private String descricao;
@@ -55,5 +56,8 @@ public class Produto {
         this.quantidade = quantidade;
         this.categoria = categoria;
         this.usuario = usuario;
+
+
+        Assert.isTrue(this.caracteristicas.size() >= 3,"Todo produto precisa ter no mínimo 3 ou mais características");
     }
 }

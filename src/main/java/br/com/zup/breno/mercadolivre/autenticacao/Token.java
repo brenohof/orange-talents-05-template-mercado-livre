@@ -1,4 +1,4 @@
-package br.com.zup.breno.mercadolivre.security;
+package br.com.zup.breno.mercadolivre.autenticacao;
 
 import br.com.zup.breno.mercadolivre.usuario.Usuario;
 import io.jsonwebtoken.Claims;

@@ -1,4 +1,4 @@
-package br.com.zup.breno.mercadolivre.security;
+package br.com.zup.breno.mercadolivre.config.security;
 
 
 import br.com.zup.breno.mercadolivre.usuario.Usuario;
@@ -12,7 +12,6 @@ import org.springframework.util.Assert;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class LoadUser implements UserDetailsService {

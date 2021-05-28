@@ -18,4 +18,8 @@ public class CaracteristicaRequest {
     public Caracteristica toModel(@NotNull @Valid Produto produto) {
         return new Caracteristica(nome, descricao, produto);
     }
+
+    public String getNome() {
+        return nome;
+    }
 }

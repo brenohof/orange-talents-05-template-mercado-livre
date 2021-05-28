@@ -3,6 +3,7 @@ package br.com.zup.breno.mercadolivre.produto;
 import br.com.zup.breno.mercadolivre.categoria.Categoria;
 import br.com.zup.breno.mercadolivre.usuario.Usuario;
 import br.com.zup.breno.mercadolivre.validator.ExistId;
+import br.com.zup.breno.mercadolivre.validator.UniqueValue;
 import org.springframework.util.Assert;
 
 import javax.persistence.EntityManager;
@@ -10,10 +11,12 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ProdutoRequest {
-    @NotBlank
+    @NotBlank @UniqueValue(entity = Produto.class, field = "nome")
     private String nome;
     @NotNull @Positive
     private BigDecimal valor;
@@ -44,5 +47,23 @@ public class ProdutoRequest {
         Assert.state(usuario!=null, "[BUG] Essa usuário é nulo.");
 
         return new Produto(nome, descricao, valor, caracteristicas, quantidade, categoria, usuario);
+    }
+
+    public Set<String> buscaCaracteristicasIguais() {
+        HashSet<String> nomesIguais = new HashSet<>();
+        HashSet<String> resultados = new HashSet<>();
+
+        for (CaracteristicaRequest caracteristica : caracteristicas) {
+            String nome = caracteristica.getNome();
+            if (!nomesIguais.add(nome)) {
+                resultados.add(nome);
+            }
+        }
+
+        return resultados;
+    }
+
+    public List<CaracteristicaRequest> getCaracteristicas() {
+        return caracteristicas;
     }
 }

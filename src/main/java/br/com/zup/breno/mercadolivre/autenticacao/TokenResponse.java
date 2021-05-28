@@ -1,4 +1,4 @@
-package br.com.zup.breno.mercadolivre.security;
+package br.com.zup.breno.mercadolivre.autenticacao;
 
 public class TokenResponse {
     private String token;

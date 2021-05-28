@@ -1,6 +1,5 @@
-package br.com.zup.breno.mercadolivre.security;
+package br.com.zup.breno.mercadolivre.autenticacao;
 
-import br.com.zup.breno.mercadolivre.validator.UniqueValue;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import javax.validation.constraints.Email;

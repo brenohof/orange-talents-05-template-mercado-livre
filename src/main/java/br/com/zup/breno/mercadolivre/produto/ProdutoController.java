@@ -8,12 +8,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
-import java.net.URI;
-import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -24,7 +21,7 @@ public class ProdutoController {
     private EntityManager entityManager;
 
     @Autowired
-    private UploaderFake uploaderFake;
+    private Uploader uploaderFake;
 
     @InitBinder(value = "produtoRequest")
     public void init(WebDataBinder webDataBinder) {

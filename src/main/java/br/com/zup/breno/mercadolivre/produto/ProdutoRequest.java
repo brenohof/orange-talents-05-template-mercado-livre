@@ -46,7 +46,7 @@ public class ProdutoRequest {
         Assert.state(categoria!=null, "[BUG] Essa categoria é nula.");
         Assert.state(usuario!=null, "[BUG] Essa usuário é nulo.");
 
-        return new Produto(nome, descricao, valor, caracteristicas, quantidade, categoria, usuario);
+        return new Produto(this, categoria, usuario);
     }
 
     public Set<String> buscaCaracteristicasIguais() {
@@ -65,5 +65,21 @@ public class ProdutoRequest {
 
     public List<CaracteristicaRequest> getCaracteristicas() {
         return caracteristicas;
+    }
+
+    public BigDecimal getValor() {
+        return valor;
+    }
+
+    public Long getQuantidade() {
+        return quantidade;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public String getNome() {
+        return nome;
     }
 }

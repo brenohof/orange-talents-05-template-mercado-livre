@@ -13,51 +13,72 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "produtos")
 public class Produto {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank @NotNull @Column(unique = true)
+    @NotBlank
+    @NotNull
+    @Column(unique = true)
     private String nome;
-    @NotNull @NotBlank @Length(max=1000)
+    @NotNull
+    @NotBlank
+    @Length(max = 1000)
     private String descricao;
-    @Positive @NotNull
+    @Positive
+    @NotNull
     private BigDecimal valor;
     @OneToMany(mappedBy = "produto", cascade = CascadeType.PERSIST)
     private Set<Caracteristica> caracteristicas = new HashSet<>();
-    @Min(0) @NotNull
+    @Min(0)
+    @NotNull
     private Long quantidade;
-    @ManyToOne @NotNull @Valid
+    @ManyToOne
+    @NotNull
+    @Valid
     private Categoria categoria;
     @NotNull
     private LocalDateTime instanteDeCadastro = LocalDateTime.now();
-    @ManyToOne @NotNull @Valid
+    @ManyToOne
+    @NotNull
+    @Valid
     private Usuario usuario;
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
+    private Set<Image> imagens = new HashSet<>();
 
     @Deprecated
     public Produto() {
     }
 
-    public Produto(String nome, String descricao, BigDecimal valor,
-                   Collection<CaracteristicaRequest> caracteristicas,
-                   Long quantidade, Categoria categoria, Usuario usuario) {
-        this.nome = nome;
-        this.descricao = descricao;
-        this.valor = valor;
-        this.caracteristicas.addAll(caracteristicas.stream()
+    public Produto(ProdutoRequest produtoRequest, Categoria categoria, Usuario usuario) {
+        this.nome = produtoRequest.getNome();
+        this.descricao = produtoRequest.getDescricao();
+        this.valor = produtoRequest.getValor();
+        this.caracteristicas.addAll(produtoRequest.getCaracteristicas().stream()
                 .map(caracteristica -> caracteristica.toModel(this))
                 .collect(Collectors.toSet()));
-        this.quantidade = quantidade;
+        this.quantidade = produtoRequest.getQuantidade();
         this.categoria = categoria;
         this.usuario = usuario;
 
+        Assert.isTrue(this.caracteristicas.size() >= 3,
+                "Todo produto precisa ter no mínimo 3 ou mais características");
+    }
 
-        Assert.isTrue(this.caracteristicas.size() >= 3,"Todo produto precisa ter no mínimo 3 ou mais características");
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void associaImagens(Set<String> links) {
+        Set<Image> imagens = links.stream()
+                .map(link -> new Image(link, this))
+                .collect(Collectors.toSet());
+
+        this.imagens.addAll(imagens);
     }
 }

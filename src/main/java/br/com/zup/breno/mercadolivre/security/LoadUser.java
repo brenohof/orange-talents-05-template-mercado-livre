@@ -2,26 +2,36 @@ package br.com.zup.breno.mercadolivre.security;
 
 
 import br.com.zup.breno.mercadolivre.usuario.Usuario;
-import br.com.zup.breno.mercadolivre.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.util.List;
 import java.util.Optional;
 
 @Component
 public class LoadUser implements UserDetailsService {
 
     @Autowired
-    private UsuarioRepository repository;
+    private EntityManager entityManager;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Usuario> usuario = repository.findByLogin(username);
-        if (usuario.isPresent()) {
-            return usuario.get();
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        Query query = entityManager.createQuery("select u from Usuario u where login = :login");
+        query.setParameter("login", login);
+
+        List<Usuario> usuarios = query.getResultList();
+
+        Assert.state(usuarios.size()<=1, "[BUG] Existe mais de um usuário com o mesmo login.");
+        Usuario usuario = usuarios.get(0);
+
+        if (usuario != null) {
+            return usuario;
         }
 
         throw new UsernameNotFoundException("Dados inválidos!");

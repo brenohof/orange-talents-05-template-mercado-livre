@@ -23,6 +23,10 @@ public class Usuario implements UserDetails {
     @NotNull @Future
     private LocalDateTime instanteDeCriacao;
 
+    @Deprecated
+    public Usuario() {
+    }
+
     public Usuario(@NotNull String login, @NotNull SenhaLimpa senha) {
         Assert.isTrue(StringUtils.hasLength(login),"email não pode ser em branco");
         Assert.notNull(senha,"o objeto do tipo senha limpa nao pode ser nulo");

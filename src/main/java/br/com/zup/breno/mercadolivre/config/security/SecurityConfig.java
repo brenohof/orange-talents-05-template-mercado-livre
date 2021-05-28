@@ -1,7 +1,7 @@
 package br.com.zup.breno.mercadolivre.config.security;
 
 import br.com.zup.breno.mercadolivre.autenticacao.AutenticacaoViaTokenFilter;
-import br.com.zup.breno.mercadolivre.autenticacao.Token;
+import br.com.zup.breno.mercadolivre.autenticacao.GerenciadorDeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private LoadUser loadUser;
 
     @Autowired
-    private Token token;
+    private GerenciadorDeToken gerenciadorDeToken;
 
     @Autowired
     private EntityManager entityManager;
@@ -50,6 +50,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().addFilterBefore(new AutenticacaoViaTokenFilter(token, entityManager), UsernamePasswordAuthenticationFilter.class);
+                .and().addFilterBefore(new AutenticacaoViaTokenFilter(gerenciadorDeToken, entityManager), UsernamePasswordAuthenticationFilter.class);
     }
 }

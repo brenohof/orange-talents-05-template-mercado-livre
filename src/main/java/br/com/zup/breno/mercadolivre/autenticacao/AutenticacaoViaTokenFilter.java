@@ -14,11 +14,11 @@ import java.io.IOException;
 
 public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
 
-    private Token tokenJWT;
+    private GerenciadorDeToken gerenciadorDeToken;
     private EntityManager entityManager;
 
-    public AutenticacaoViaTokenFilter(Token token, EntityManager entityManager) {
-        this.tokenJWT = token;
+    public AutenticacaoViaTokenFilter(GerenciadorDeToken gerenciadorDeToken, EntityManager entityManager) {
+        this.gerenciadorDeToken = gerenciadorDeToken;
         this.entityManager = entityManager;
     }
 
@@ -27,7 +27,7 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String token = recuperarToken(request);
-        boolean valido = tokenJWT.isTokenValido(token);
+        boolean valido = gerenciadorDeToken.isTokenValido(token);
         if (valido) {
             autenticarCliente(token);
         }
@@ -36,7 +36,7 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
     }
 
     private void autenticarCliente(String token) {
-        Long idUsuario = tokenJWT.getIdUsuario(token);
+        Long idUsuario = gerenciadorDeToken.getIdUsuario(token);
         Usuario usuario = entityManager.find(Usuario.class, idUsuario);
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);

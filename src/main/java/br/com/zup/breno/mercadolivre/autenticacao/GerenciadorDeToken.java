@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 @Component
-public class Token {
+public class GerenciadorDeToken {
 
     @Value("${ml.jwt.expiration}")
     private String expiration;
@@ -40,7 +40,6 @@ public class Token {
         } catch (Exception e) {
             return false;
         }
-
     }
 
     public Long getIdUsuario(String token) {

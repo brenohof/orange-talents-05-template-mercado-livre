@@ -21,7 +21,7 @@ public class AutenticacaoController {
     private AuthenticationManager authManager;
 
     @Autowired
-    private Token token;
+    private GerenciadorDeToken gerenciadorDeToken;
 
     @PostMapping
     public ResponseEntity<?> autenticar(@Valid @RequestBody LoginRequest request) {
@@ -29,7 +29,7 @@ public class AutenticacaoController {
 
         try {
             Authentication authentication = authManager.authenticate(dadosLogin);
-            String novoToken = token.gerarToken(authentication);
+            String novoToken = gerenciadorDeToken.gerarToken(authentication);
             return ResponseEntity.ok(new TokenResponse(novoToken, "Bearer"));
         } catch (AuthenticationException exception) {
             return ResponseEntity.badRequest().build();

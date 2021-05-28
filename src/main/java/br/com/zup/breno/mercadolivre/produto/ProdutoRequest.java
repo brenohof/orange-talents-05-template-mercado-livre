@@ -1,6 +1,7 @@
 package br.com.zup.breno.mercadolivre.produto;
 
 import br.com.zup.breno.mercadolivre.categoria.Categoria;
+import br.com.zup.breno.mercadolivre.produto.caracteristica.CaracteristicaRequest;
 import br.com.zup.breno.mercadolivre.usuario.Usuario;
 import br.com.zup.breno.mercadolivre.validator.ExistId;
 import br.com.zup.breno.mercadolivre.validator.UniqueValue;

@@ -1,4 +1,4 @@
-package br.com.zup.breno.mercadolivre.produto;
+package br.com.zup.breno.mercadolivre.produto.imagem;
 
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;

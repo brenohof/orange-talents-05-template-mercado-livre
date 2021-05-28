@@ -1,5 +1,6 @@
-package br.com.zup.breno.mercadolivre.produto;
+package br.com.zup.breno.mercadolivre.produto.imagem;
 
+import br.com.zup.breno.mercadolivre.produto.Produto;
 import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;

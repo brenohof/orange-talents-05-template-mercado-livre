@@ -1,7 +1,8 @@
-package br.com.zup.breno.mercadolivre.produto;
+package br.com.zup.breno.mercadolivre.produto.caracteristica;
 
 import java.util.Set;
 
+import br.com.zup.breno.mercadolivre.produto.ProdutoRequest;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 

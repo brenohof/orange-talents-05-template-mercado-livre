@@ -1,6 +1,8 @@
 package br.com.zup.breno.mercadolivre.produto;
 
 import br.com.zup.breno.mercadolivre.categoria.Categoria;
+import br.com.zup.breno.mercadolivre.produto.caracteristica.Caracteristica;
+import br.com.zup.breno.mercadolivre.produto.imagem.Image;
 import br.com.zup.breno.mercadolivre.usuario.Usuario;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.util.Assert;

@@ -1,5 +1,10 @@
 package br.com.zup.breno.mercadolivre.produto;
 
+import br.com.zup.breno.mercadolivre.produto.caracteristica.ProibeCaracteristicasComMesmoNomeValidator;
+import br.com.zup.breno.mercadolivre.produto.imagem.ImageRequest;
+import br.com.zup.breno.mercadolivre.produto.imagem.Uploader;
+import br.com.zup.breno.mercadolivre.produto.opiniao.Opiniao;
+import br.com.zup.breno.mercadolivre.produto.opiniao.OpiniaoRequest;
 import br.com.zup.breno.mercadolivre.usuario.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,6 +48,8 @@ public class ProdutoController {
                                              @Valid ImageRequest request,
                                              @AuthenticationPrincipal Usuario usuario) {
         Produto produto = entityManager.find(Produto.class, id);
+        if (produto == null)
+            return ResponseEntity.notFound().build();
 
         if (!produto.getUsuario().equals(usuario))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
@@ -52,6 +59,15 @@ public class ProdutoController {
 
         entityManager.merge(produto);
 
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/opinioes")
+    @Transactional
+    public ResponseEntity<?> adicionarOpiniao(@Valid @RequestBody OpiniaoRequest request,
+                                              @AuthenticationPrincipal Usuario usuario) {
+        Opiniao opiniao =  request.toModel(entityManager, usuario);
+        entityManager.persist(opiniao);
         return ResponseEntity.ok().build();
     }
 }

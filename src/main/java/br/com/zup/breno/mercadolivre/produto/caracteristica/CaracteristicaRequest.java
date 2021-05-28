@@ -1,4 +1,6 @@
-package br.com.zup.breno.mercadolivre.produto;
+package br.com.zup.breno.mercadolivre.produto.caracteristica;
+
+import br.com.zup.breno.mercadolivre.produto.Produto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;

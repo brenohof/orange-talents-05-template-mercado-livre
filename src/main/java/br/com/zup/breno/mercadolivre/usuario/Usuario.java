@@ -88,4 +88,8 @@ public class Usuario implements UserDetails {
     public int hashCode() {
         return Objects.hash(id, login, senha, instanteDeCriacao);
     }
+
+    public String getEmail() {
+        return login;
+    }
 }

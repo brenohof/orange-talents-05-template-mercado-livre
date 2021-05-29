@@ -83,4 +83,12 @@ public class Produto {
 
         this.imagens.addAll(imagens);
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getUsuarioEmail() {
+        return usuario.getEmail();
+    }
 }

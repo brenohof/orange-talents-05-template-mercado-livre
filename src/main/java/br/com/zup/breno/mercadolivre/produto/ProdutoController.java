@@ -61,13 +61,4 @@ public class ProdutoController {
 
         return ResponseEntity.ok().build();
     }
-
-    @PostMapping("/opinioes")
-    @Transactional
-    public ResponseEntity<?> adicionarOpiniao(@Valid @RequestBody OpiniaoRequest request,
-                                              @AuthenticationPrincipal Usuario usuario) {
-        Opiniao opiniao =  request.toModel(entityManager, usuario);
-        entityManager.persist(opiniao);
-        return ResponseEntity.ok().build();
-    }
 }

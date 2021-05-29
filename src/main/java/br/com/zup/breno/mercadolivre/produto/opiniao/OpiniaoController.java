@@ -20,7 +20,7 @@ public class OpiniaoController {
 
     @PostMapping("/produtos/opinioes")
     @Transactional
-    public ResponseEntity<?> adicionarOpiniao(@Valid @RequestBody OpiniaoRequest request,
+    public ResponseEntity<?> adicionar(@Valid @RequestBody OpiniaoRequest request,
                                               @AuthenticationPrincipal Usuario usuario) {
         Opiniao opiniao =  request.toModel(entityManager, usuario);
         entityManager.persist(opiniao);

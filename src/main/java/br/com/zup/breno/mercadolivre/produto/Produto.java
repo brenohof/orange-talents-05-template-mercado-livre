@@ -3,6 +3,8 @@ package br.com.zup.breno.mercadolivre.produto;
 import br.com.zup.breno.mercadolivre.categoria.Categoria;
 import br.com.zup.breno.mercadolivre.produto.caracteristica.Caracteristica;
 import br.com.zup.breno.mercadolivre.produto.imagem.Image;
+import br.com.zup.breno.mercadolivre.produto.opiniao.Opiniao;
+import br.com.zup.breno.mercadolivre.produto.pergunta.Pergunta;
 import br.com.zup.breno.mercadolivre.usuario.Usuario;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.util.Assert;
@@ -72,10 +74,6 @@ public class Produto {
                 "Todo produto precisa ter no mínimo 3 ou mais características");
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
     public void associaImagens(Set<String> links) {
         Set<Image> imagens = links.stream()
                 .map(link -> new Image(link, this))
@@ -84,11 +82,35 @@ public class Produto {
         this.imagens.addAll(imagens);
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
     public String getNome() {
         return nome;
     }
 
     public String getUsuarioEmail() {
         return usuario.getEmail();
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public BigDecimal getValor() {
+        return valor;
+    }
+
+    public Long getQuantidade() {
+        return quantidade;
+    }
+
+    public List<Caracteristica> getCaracteristicas() {
+        return caracteristicas.stream().collect(Collectors.toList());
+    }
+
+    public Set<Image> getImagens() {
+        return imagens;
     }
 }

@@ -26,7 +26,11 @@ public class Opiniao {
     @NotNull @ManyToOne
     private Produto produto;
 
-    public Opiniao(@NotNull String titulo,@NotNull String descricao,
+    @Deprecated
+    public Opiniao() {
+    }
+
+    public Opiniao(@NotNull String titulo, @NotNull String descricao,
                    @NotNull @Min(1) @Max(5) Integer nota, @NotNull Usuario usuario,
                    @NotNull Produto produto) {
         this.titulo = titulo;
@@ -34,5 +38,17 @@ public class Opiniao {
         this.nota = nota;
         this.usuario = usuario;
         this.produto = produto;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public Integer getNota() {
+        return nota;
     }
 }

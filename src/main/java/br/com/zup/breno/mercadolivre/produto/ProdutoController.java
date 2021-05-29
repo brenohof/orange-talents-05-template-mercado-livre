@@ -3,8 +3,8 @@ package br.com.zup.breno.mercadolivre.produto;
 import br.com.zup.breno.mercadolivre.produto.caracteristica.ProibeCaracteristicasComMesmoNomeValidator;
 import br.com.zup.breno.mercadolivre.produto.imagem.ImageRequest;
 import br.com.zup.breno.mercadolivre.produto.imagem.Uploader;
-import br.com.zup.breno.mercadolivre.produto.opiniao.Opiniao;
-import br.com.zup.breno.mercadolivre.produto.opiniao.OpiniaoRequest;
+import br.com.zup.breno.mercadolivre.produto.opiniao.OpiniaoResponse;
+import br.com.zup.breno.mercadolivre.produto.pergunta.Pergunta;
 import br.com.zup.breno.mercadolivre.usuario.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -60,5 +61,18 @@ public class ProdutoController {
         entityManager.merge(produto);
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> detalhar(@PathVariable Long id) {
+        Produto produto = entityManager.find(Produto.class, id);
+        if (produto == null)
+            return ResponseEntity.notFound().build();
+
+        List<OpiniaoResponse> opinioes = OpiniaoResponse.toList(id, entityManager);
+        List<String> perguntas = Pergunta.toList(id, entityManager);
+        ProdutoResponse produtoResponse = new ProdutoResponse(produto, opinioes, perguntas);
+
+        return ResponseEntity.ok(produtoResponse);
     }
 }

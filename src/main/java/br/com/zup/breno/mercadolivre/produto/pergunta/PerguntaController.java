@@ -23,7 +23,7 @@ public class PerguntaController {
 
     @PostMapping("/produtos/perguntas")
     @Transactional
-    public ResponseEntity<?> adicionarOpiniao(@Valid @RequestBody PerguntaRequest request,
+    public ResponseEntity<?> adicionar(@Valid @RequestBody PerguntaRequest request,
                                               @AuthenticationPrincipal Usuario usuario) {
         Pergunta pergunta =  request.toModel(entityManager, usuario);
         EmailResponse emailResponse = new EmailResponse(pergunta);

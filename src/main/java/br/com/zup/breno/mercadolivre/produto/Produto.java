@@ -82,6 +82,20 @@ public class Produto {
         this.imagens.addAll(imagens);
     }
 
+    /**
+     * @param quantidade quantidade a ser abatida.
+     * @return caso não tenha estoque retorna false. Caso contrário, o estoque seja abatido,retorna true.
+     */
+    public boolean abateEstoque(Long quantidade) {
+        Assert.isTrue(quantidade > 0, "A quantidade á abater é menor do que 0.");
+
+        if (this.quantidade <= 0 || this.quantidade < quantidade)
+            return false;
+
+        this.quantidade -= quantidade;
+        return true;
+    }
+
     public Usuario getUsuario() {
         return usuario;
     }

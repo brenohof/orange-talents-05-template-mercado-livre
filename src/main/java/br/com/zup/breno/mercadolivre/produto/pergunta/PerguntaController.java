@@ -1,5 +1,6 @@
 package br.com.zup.breno.mercadolivre.produto.pergunta;
 
+import br.com.zup.breno.mercadolivre.core.email.Emails;
 import br.com.zup.breno.mercadolivre.usuario.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,16 +20,16 @@ public class PerguntaController {
     private EntityManager entityManager;
 
     @Autowired
-    private EnviadorDeEmail enviadorDeEmailFake;
+    private Emails emails;
 
     @PostMapping("/produtos/perguntas")
     @Transactional
     public ResponseEntity<?> adicionar(@Valid @RequestBody PerguntaRequest request,
                                               @AuthenticationPrincipal Usuario usuario) {
         Pergunta pergunta =  request.toModel(entityManager, usuario);
-        EmailResponse emailResponse = new EmailResponse(pergunta);
         entityManager.persist(pergunta);
-        enviadorDeEmailFake.enviarEmailNovaPergunta(pergunta.getEmailDonoProduto(), emailResponse);
+        emails.novaPergunta(pergunta);
+
         return ResponseEntity.ok().build();
     }
 }

@@ -2,6 +2,7 @@ package br.com.zup.breno.mercadolivre.compra;
 
 import br.com.zup.breno.mercadolivre.handler.ErrorResponse;
 import br.com.zup.breno.mercadolivre.produto.Produto;
+import br.com.zup.breno.mercadolivre.core.email.Emails;
 import br.com.zup.breno.mercadolivre.usuario.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityManager;
@@ -25,6 +25,9 @@ public class CompraController {
 
     @Autowired
     private EntityManager entityManager;
+
+    @Autowired
+    private Emails emails;
 
     @PostMapping
     @Transactional
@@ -42,7 +45,8 @@ public class CompraController {
 
         Compra compra = new Compra(produto, comprador, request.getQuantidade(), request.getGateway());
         entityManager.persist(compra);
+        emails.novaCompra(compra);
 
-        return ResponseEntity.ok(compra.urlRedirecionamento(uriComponentsBuilder));
+        return ResponseEntity.status(HttpStatus.FOUND).body(compra.urlRedirecionamento(uriComponentsBuilder));
     }
 }

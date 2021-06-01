@@ -46,4 +46,12 @@ public class Compra {
     public String urlRedirecionamento(UriComponentsBuilder uriComponentsBuilder) {
         return this.gateway.criaUrlRetorno(this, uriComponentsBuilder);
     }
+
+    public String getEmailComprador() {
+        return this.comprador.getEmail();
+    }
+
+    public String getEmailDonoProduto() {
+        return this.produto.getUsuarioEmail();
+    }
 }

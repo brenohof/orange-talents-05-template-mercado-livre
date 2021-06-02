@@ -1,6 +1,7 @@
 package br.com.zup.breno.mercadolivre.compra.pagamento;
 
 import br.com.zup.breno.mercadolivre.compra.Compra;
+import br.com.zup.breno.mercadolivre.compra.pagamento.integracao.EventosNovaCompra;
 import br.com.zup.breno.mercadolivre.handler.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,9 @@ public class PagamentoController {
 
     @Autowired
     private EntityManager entityManager;
+
+    @Autowired
+    private EventosNovaCompra eventosNovaCompra;
 
     @PostMapping("/retorno-pagseguro/{id}")
     @Transactional
@@ -39,16 +43,15 @@ public class PagamentoController {
             return ResponseEntity.notFound().build();
 
         boolean adicionado = compra.adicionarPagamento(request);
-
         if (!adicionado) {
             return ResponseEntity.unprocessableEntity().body(
                     new ErrorResponse("compra", "Está compra já foi concluida."));
         }
+
+        eventosNovaCompra.processa(compra);
+
         entityManager.merge(compra);
 
-        if (compra.foiConcluida()) {
-            
-        }
 
         return ResponseEntity.ok().build();
     }

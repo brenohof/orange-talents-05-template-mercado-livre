@@ -85,4 +85,12 @@ public class Compra {
     public boolean foiConcluida() {
         return this.status.equals(StatusCompra.CONCLUIDA);
     }
+
+    public Long getIdComprador() {
+        return this.comprador.getId();
+    }
+
+    public Long getIdDono() {
+        return this.produto.getUsuario().getId();
+    }
 }

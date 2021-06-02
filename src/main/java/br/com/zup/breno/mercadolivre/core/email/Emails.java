@@ -26,4 +26,17 @@ public class Emails {
     }
 
 
+    public void falhaPagamento(Compra compra) {
+        mailer.send("falha pagamento compra..." + compra, "Seu pagamento falhou",
+                compra.getEmailComprador(),
+                "compras@nossomercadolivre.com",
+                compra.getEmailComprador());
+    }
+
+    public void sucessoPagamento(Compra compra) {
+        mailer.send("Sucesso pagamento compra..." + compra, "Seu pagamento concluido com sucesso",
+                compra.getEmailComprador(),
+                "compras@nossomercadolivre.com",
+                compra.getEmailComprador());
+    }
 }
